@@ -246,16 +246,41 @@
 
     const whoData = packData[activeWho] || {};
     let total=0, checked=0;
+    const packedItems = []; // collect for summary
     SEC_ORDER.forEach(id => {
       const sec = whoData[id]; if (!sec) return;
       const items = Object.values(sec.items||{});
       total += items.length;
-      checked += items.filter(it => it.checked).length;
+      items.forEach(it => {
+        if (it.checked) { checked++; packedItems.push({ name: it.name, section: sec.name, icon: sec.icon }); }
+      });
     });
     const pct = total ? (checked/total)*100 : 0;
     document.getElementById("pack-count").innerHTML = `${checked} <span>/ ${total}</span>`;
     document.getElementById("pack-pct").textContent = pct.toFixed(0)+"%";
     document.getElementById("pack-bar").style.width = pct+"%";
+
+    // Packed summary
+    const summaryEl = document.getElementById("packed-summary");
+    if (packedItems.length === 0) {
+      summaryEl.innerHTML = "";
+    } else {
+      summaryEl.innerHTML = `
+        <div class="packed-summary-card">
+          <div class="packed-summary-hdr" onclick="this.parentElement.classList.toggle('open')">
+            <span>✅ Packed (${packedItems.length})</span>
+            <span class="pack-chevron" style="transition:transform 0.2s">▶</span>
+          </div>
+          <div class="packed-summary-list">
+            ${packedItems.map(it => `
+              <div class="packed-summary-item">
+                <span class="packed-summary-icon">${it.icon}</span>
+                <span class="packed-summary-name">${it.name}</span>
+                <span class="packed-summary-sec">${it.section}</span>
+              </div>`).join("")}
+          </div>
+        </div>`;
+    }
 
     document.getElementById("pack-sections").innerHTML = SEC_ORDER.map(secId => {
       const sec = whoData[secId]; if (!sec) return "";
@@ -547,6 +572,16 @@ footer h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:8p
 
 /* ── PACKING ── */
 .person-tabs{display:flex;gap:8px;margin-bottom:16px;}
+.packed-summary-card{background:white;border:1px solid #d4ecd4;border-radius:12px;margin-bottom:16px;overflow:hidden;}
+.packed-summary-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:13px;font-weight:500;color:var(--green-dark);cursor:pointer;user-select:none;}
+.packed-summary-list{display:none;border-top:1px solid #e8f5e8;padding:8px 0;}
+.packed-summary-card.open .packed-summary-list{display:block;}
+.packed-summary-card.open .pack-chevron{transform:rotate(90deg);}
+.packed-summary-item{display:flex;align-items:center;gap:8px;padding:7px 16px;}
+.packed-summary-item:not(:last-child){border-bottom:1px solid #f0f8f0;}
+.packed-summary-icon{font-size:14px;flex-shrink:0;}
+.packed-summary-name{flex:1;font-size:13px;color:var(--green-dark);}
+.packed-summary-sec{font-size:11px;color:#aaa;}
 .pack-tab-btn{flex:1;padding:10px;border:2px solid #e0d5c5;border-radius:10px;background:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:#999;cursor:pointer;transition:all 0.2s;}
 .pack-tab-btn.pack-tab-active{border-color:var(--green-mid);background:var(--green-mid);color:white;}
 .pack-summary{background:var(--green-dark);border-radius:16px;padding:20px 24px;color:white;margin-bottom:20px;}
@@ -795,7 +830,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:8p
     <div class="summary-card">
       <div class="sum-label">Total Budget</div>
       <div class="sum-top">
-        <div class="sum-amount" id="budget-display">$2,000</div>
+        <div class="sum-amount" id="budget-display">$1,500</div>
         <button class="edit-btn" onclick="window._toggleBudgetEdit()">✏ Edit Budget</button>
       </div>
       <div class="inline-edit" id="budget-edit-row" style="display:none">
@@ -850,6 +885,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:8p
       </div>
       <div class="pack-bar-wrap"><div class="pack-bar-fill" id="pack-bar" style="width:0%"></div></div>
     </div>
+    <div id="packed-summary"></div>
     <div id="pack-sections"></div>
   </div>
 </div>
