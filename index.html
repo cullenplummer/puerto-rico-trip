@@ -37,62 +37,111 @@
     item3: { label:"El Yunque Waterslide Tour (Hanser)", amount:64.00,  category:"activities", order:3 },
   };
 
-  const DEFAULT_PACKING = {
-    essentials: { icon:"🪪", name:"Essentials", open:true, items:{
-      i0:{name:"Passport / ID",checked:false,order:0}, i1:{name:"Phone + charger",checked:false,order:1},
-      i2:{name:"Wallet & cards",checked:false,order:2}, i3:{name:"Travel insurance info",checked:false,order:3},
-      i4:{name:"Airbnb confirmation",checked:false,order:4}, i5:{name:"AirPods / headphones",checked:false,order:5}
-    }},
-    clothes: { icon:"👙", name:"Clothes & Beach", open:true, items:{
-      i0:{name:"Swimsuit(s)",checked:false,order:0}, i1:{name:"Board shorts / swim cover-up",checked:false,order:1},
-      i2:{name:"Light linen shirt",checked:false,order:2}, i3:{name:"Sundress / casual outfit",checked:false,order:3},
-      i4:{name:"Shorts × 3",checked:false,order:4}, i5:{name:"T-shirts × 4",checked:false,order:5},
-      i6:{name:"One nicer outfit for dinner",checked:false,order:6}, i7:{name:"Sandals / flip flops",checked:false,order:7},
-      i8:{name:"Sneakers or walking shoes",checked:false,order:8}, i9:{name:"Underwear & socks",checked:false,order:9},
-      i10:{name:"Light jacket or hoodie (AC!)",checked:false,order:10}, i11:{name:"Hat / cap",checked:false,order:11}
-    }},
-    beach: { icon:"🌊", name:"Beach & Outdoors", open:true, items:{
-      i0:{name:"Sunscreen SPF 50+",checked:false,order:0}, i1:{name:"After-sun lotion / aloe",checked:false,order:1},
-      i2:{name:"Sunglasses",checked:false,order:2}, i3:{name:"Reusable water bottle",checked:false,order:3},
-      i4:{name:"Beach towel",checked:false,order:4}, i5:{name:"Dry bag / waterproof pouch",checked:false,order:5},
-      i6:{name:"Bug spray (for El Yunque)",checked:false,order:6}
-    }},
-    toiletries: { icon:"🧴", name:"Toiletries", open:true, items:{
-      i0:{name:"Toothbrush + toothpaste",checked:false,order:0}, i1:{name:"Shampoo & conditioner",checked:false,order:1},
-      i2:{name:"Body wash",checked:false,order:2}, i3:{name:"Deodorant",checked:false,order:3},
-      i4:{name:"Razor",checked:false,order:4}, i5:{name:"Face wash & moisturizer",checked:false,order:5},
-      i6:{name:"Lip balm with SPF",checked:false,order:6}, i7:{name:"Hair ties / brush",checked:false,order:7}
-    }},
-    health: { icon:"💊", name:"Health & Meds", open:true, items:{
-      i0:{name:"Any prescriptions",checked:false,order:0}, i1:{name:"Ibuprofen / Tylenol",checked:false,order:1},
-      i2:{name:"Antacids",checked:false,order:2}, i3:{name:"Motion sickness tabs",checked:false,order:3},
-      i4:{name:"Band-aids",checked:false,order:4}, i5:{name:"Hand sanitizer",checked:false,order:5}
-    }},
-    tech: { icon:"📷", name:"Tech & Fun", open:true, items:{
-      i0:{name:"Camera or GoPro",checked:false,order:0}, i1:{name:"Extra SD card / memory",checked:false,order:1},
-      i2:{name:"Portable charger / power bank",checked:false,order:2},
-      i3:{name:"No adapter needed — PR uses US plugs! ✅",checked:false,order:3},
-      i4:{name:"Spotify downloads for the flight",checked:false,order:4}
-    }},
-  };
+  function makePackSections(who) {
+    const c = who === "cullen";
+    const shared = {
+      essentials: { icon:"🪪", name:"Essentials", open:true, items:{
+        i0:{name:"Passport / ID",checked:false,order:0},
+        i1:{name:"Phone + charger",checked:false,order:1},
+        i2:{name:"Wallet & cards",checked:false,order:2},
+        i3:{name:"Travel insurance info",checked:false,order:3},
+        i4:{name:"Airbnb confirmation",checked:false,order:4},
+        i5:{name:"AirPods / headphones",checked:false,order:5},
+      }},
+      beach: { icon:"🌊", name:"Beach & Outdoors", open:true, items:{
+        i0:{name:"Sunscreen SPF 50+",checked:false,order:0},
+        i1:{name:"After-sun lotion / aloe",checked:false,order:1},
+        i2:{name:"Sunglasses",checked:false,order:2},
+        i3:{name:"Reusable water bottle",checked:false,order:3},
+        i4:{name:"Beach towel",checked:false,order:4},
+        i5:{name:"Dry bag / waterproof pouch",checked:false,order:5},
+        i6:{name:"Bug spray (for El Yunque)",checked:false,order:6},
+      }},
+      health: { icon:"💊", name:"Health & Meds", open:true, items:{
+        i0:{name:"Any prescriptions",checked:false,order:0},
+        i1:{name:"Ibuprofen / Tylenol",checked:false,order:1},
+        i2:{name:"Antacids",checked:false,order:2},
+        i3:{name:"Motion sickness tabs",checked:false,order:3},
+        i4:{name:"Band-aids",checked:false,order:4},
+        i5:{name:"Hand sanitizer",checked:false,order:5},
+      }},
+      tech: { icon:"📷", name:"Tech & Fun", open:true, items:{
+        i0:{name:"Camera or GoPro",checked:false,order:0},
+        i1:{name:"Extra SD card / memory",checked:false,order:1},
+        i2:{name:"Portable charger / power bank",checked:false,order:2},
+        i3:{name:"No adapter needed — PR uses US plugs! ✅",checked:false,order:3},
+        i4:{name:"Spotify downloads for the flight",checked:false,order:4},
+      }},
+    };
+    const clothes = c ? { icon:"👕", name:"Clothes", open:true, items:{
+      i0:{name:"Board shorts × 2",checked:false,order:0},
+      i1:{name:"Swim trunks",checked:false,order:1},
+      i2:{name:"Light linen shirt",checked:false,order:2},
+      i3:{name:"T-shirts × 4",checked:false,order:3},
+      i4:{name:"Shorts × 2",checked:false,order:4},
+      i5:{name:"One nicer outfit for dinner",checked:false,order:5},
+      i6:{name:"Sandals / flip flops",checked:false,order:6},
+      i7:{name:"Sneakers or walking shoes",checked:false,order:7},
+      i8:{name:"Underwear & socks",checked:false,order:8},
+      i9:{name:"Light jacket or hoodie (AC!)",checked:false,order:9},
+      i10:{name:"Hat / cap",checked:false,order:10},
+    }} : { icon:"👗", name:"Clothes", open:true, items:{
+      i0:{name:"Swimsuit(s)",checked:false,order:0},
+      i1:{name:"Swim cover-up",checked:false,order:1},
+      i2:{name:"Sundress / casual outfit",checked:false,order:2},
+      i3:{name:"T-shirts × 3",checked:false,order:3},
+      i4:{name:"Shorts × 2",checked:false,order:4},
+      i5:{name:"One nicer outfit for dinner",checked:false,order:5},
+      i6:{name:"Sandals / flip flops",checked:false,order:6},
+      i7:{name:"Sneakers or walking shoes",checked:false,order:7},
+      i8:{name:"Underwear & socks",checked:false,order:8},
+      i9:{name:"Light jacket or hoodie (AC!)",checked:false,order:9},
+      i10:{name:"Hat / cap",checked:false,order:10},
+      i11:{name:"Hair ties",checked:false,order:11},
+    }};
+    const toiletries = c ? { icon:"🧴", name:"Toiletries", open:true, items:{
+      i0:{name:"Toothbrush + toothpaste",checked:false,order:0},
+      i1:{name:"Shampoo & conditioner",checked:false,order:1},
+      i2:{name:"Body wash",checked:false,order:2},
+      i3:{name:"Deodorant",checked:false,order:3},
+      i4:{name:"Razor",checked:false,order:4},
+      i5:{name:"Face wash & moisturizer",checked:false,order:5},
+      i6:{name:"Lip balm with SPF",checked:false,order:6},
+    }} : { icon:"🧴", name:"Toiletries", open:true, items:{
+      i0:{name:"Toothbrush + toothpaste",checked:false,order:0},
+      i1:{name:"Shampoo & conditioner",checked:false,order:1},
+      i2:{name:"Body wash",checked:false,order:2},
+      i3:{name:"Deodorant",checked:false,order:3},
+      i4:{name:"Razor",checked:false,order:4},
+      i5:{name:"Face wash & moisturizer",checked:false,order:5},
+      i6:{name:"Lip balm with SPF",checked:false,order:6},
+      i7:{name:"Makeup & brushes",checked:false,order:7},
+      i8:{name:"Hair dryer / styling tools",checked:false,order:8},
+    }};
+    return { essentials: shared.essentials, clothes, beach: shared.beach, toiletries, health: shared.health, tech: shared.tech };
+  }
 
   // ── SEED: use get() for a clean one-shot read, then set if empty ──
   async function seedAll() {
     const [budgetSnap, lockedSnap, packSnap] = await Promise.all([
       get(ref(db, "budget")),
       get(ref(db, "locked")),
-      get(ref(db, "packing")),
+      get(ref(db, "packing/cullen")),
     ]);
     if (!budgetSnap.exists()) await set(ref(db, "budget"), 1500);
     if (!lockedSnap.exists()) await set(ref(db, "locked"), DEFAULT_LOCKED);
-    if (!packSnap.exists())   await set(ref(db, "packing"), DEFAULT_PACKING);
+    if (!packSnap.exists()) {
+      await set(ref(db, "packing/cullen"), makePackSections("cullen"));
+      await set(ref(db, "packing/lauren"), makePackSections("lauren"));
+    }
   }
 
   // ── STATE (kept in sync by listeners) ────────────────
   let budget = 1500;
   let lockedExpenses = [];
   let unlockedExpenses = [];
-  let packData = {};
+  let packData = { cullen: {}, lauren: {} };
+  let activeWho = "cullen";
   let editingId = null;
 
   // ── HELPERS ───────────────────────────────────────────
@@ -189,9 +238,16 @@
   const SEC_ORDER = ["essentials","clothes","beach","toiletries","health","tech"];
 
   function renderPacking() {
+    // Update sub-tab buttons
+    ["cullen","lauren"].forEach(who => {
+      const btn = document.getElementById("pack-tab-"+who);
+      if (btn) btn.classList.toggle("pack-tab-active", who === activeWho);
+    });
+
+    const whoData = packData[activeWho] || {};
     let total=0, checked=0;
     SEC_ORDER.forEach(id => {
-      const sec = packData[id]; if (!sec) return;
+      const sec = whoData[id]; if (!sec) return;
       const items = Object.values(sec.items||{});
       total += items.length;
       checked += items.filter(it => it.checked).length;
@@ -202,7 +258,7 @@
     document.getElementById("pack-bar").style.width = pct+"%";
 
     document.getElementById("pack-sections").innerHTML = SEC_ORDER.map(secId => {
-      const sec = packData[secId]; if (!sec) return "";
+      const sec = whoData[secId]; if (!sec) return "";
       const items = Object.entries(sec.items||{}).sort((a,b)=>(a[1].order||0)-(b[1].order||0));
       const secChecked = items.filter(([,it])=>it.checked).length;
       const open = sec.open !== false;
@@ -267,16 +323,17 @@
       document.getElementById("budget-edit-row").style.display = "none";
     }
   };
-  window._toggleSec  = id => update(ref(db, `packing/${id}`), { open: packData[id].open === false });
-  window._toggleItem = (s,k) => update(ref(db, `packing/${s}/items/${k}`), { checked: !packData[s].items[k].checked });
-  window._delItem    = (s,k) => remove(ref(db, `packing/${s}/items/${k}`));
+  window._toggleSec  = id => update(ref(db, `packing/${activeWho}/${id}`), { open: packData[activeWho][id].open === false });
+  window._toggleItem = (s,k) => update(ref(db, `packing/${activeWho}/${s}/items/${k}`), { checked: !packData[activeWho][s].items[k].checked });
+  window._delItem    = (s,k) => remove(ref(db, `packing/${activeWho}/${s}/items/${k}`));
   window._addItem    = s => {
     const inp = document.getElementById(`newinp-${s}`);
     if (!inp?.value.trim()) return;
-    const order = Object.keys(packData[s].items||{}).length;
-    push(ref(db, `packing/${s}/items`), { name: inp.value.trim(), checked: false, order });
+    const order = Object.keys((packData[activeWho][s]||{}).items||{}).length;
+    push(ref(db, `packing/${activeWho}/${s}/items`), { name: inp.value.trim(), checked: false, order });
     inp.value = "";
   };
+  window._switchPackWho = who => { activeWho = who; renderPacking(); };
 
   // ── FIREBASE LISTENERS ────────────────────────────────
   function wireListeners() {
@@ -295,8 +352,11 @@
       unlockedExpenses = Object.entries(raw).map(([k,v]) => ({...v, fbKey:k}));
       renderBudget(); flashSync();
     });
-    onValue(ref(db, "packing"), snap => {
-      packData = snap.val() || {}; renderPacking(); flashSync();
+    onValue(ref(db, "packing/cullen"), snap => {
+      packData.cullen = snap.val() || {}; renderPacking(); flashSync();
+    });
+    onValue(ref(db, "packing/lauren"), snap => {
+      packData.lauren = snap.val() || {}; renderPacking(); flashSync();
     });
   }
 
@@ -486,6 +546,9 @@ footer h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:8p
 .sync-badge{position:fixed;bottom:16px;right:16px;background:rgba(26,58,42,0.9);color:rgba(255,255,255,0.7);font-size:11px;padding:6px 12px;border-radius:100px;z-index:200;pointer-events:none;transition:opacity 0.3s;}
 
 /* ── PACKING ── */
+.person-tabs{display:flex;gap:8px;margin-bottom:16px;}
+.pack-tab-btn{flex:1;padding:10px;border:2px solid #e0d5c5;border-radius:10px;background:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:#999;cursor:pointer;transition:all 0.2s;}
+.pack-tab-btn.pack-tab-active{border-color:var(--green-mid);background:var(--green-mid);color:white;}
 .pack-summary{background:var(--green-dark);border-radius:16px;padding:20px 24px;color:white;margin-bottom:20px;}
 .pack-stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
 .pack-count{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--gold);}
@@ -545,7 +608,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:8p
     <div class="hero-eyebrow">Cullen & Lauren's</div>
     <h1 class="hero-title">Puerto <em>Rico</em></h1>
     <p class="hero-dates">April 11 – 15 · 2026</p>
-    <div class="love-note">Heyyyyyyy, hey, baby! Ooh! Aah! I wanna knowwwww (Oh-oh) (Oh-oh) if you'll be my girl (2, 3, 4, 5, 6, 7, 8)!. 🇵🇷</div>
+    <div class="love-note">Can't wait to explore this island with you, Lauren. Sun, beaches, good food, and an adventure we'll never forget. 🇵🇷</div>
     <p class="scroll-hint">↓ scroll ↓</p>
   </div>
 
@@ -776,6 +839,10 @@ footer h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:8p
      ════════════════════════════════════════ -->
 <div id="panel-packing" class="panel">
   <div class="app-content">
+    <div class="person-tabs">
+      <button class="pack-tab-btn pack-tab-active" id="pack-tab-cullen" onclick="window._switchPackWho('cullen')">🧔 Cullen</button>
+      <button class="pack-tab-btn" id="pack-tab-lauren" onclick="window._switchPackWho('lauren')">👩 Lauren</button>
+    </div>
     <div class="pack-summary">
       <div class="pack-stats">
         <div><div class="pack-count" id="pack-count">0 <span>/ 0</span></div><div class="pack-lbl">items packed</div></div>
