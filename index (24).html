@@ -6,10 +6,16 @@
 <title>Puerto Rico 🌴 Cullen & Lauren</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&family=Caveat:wght@600&display=swap" rel="stylesheet"/>
 
-<!-- ═══════════════════════════════════════════════════════
-     FIREBASE CONFIG — replace these values with yours from
-     Firebase Console → Project Settings → Your apps → SDK
-     ═══════════════════════════════════════════════════════ -->
+const firebaseConfig = {
+  apiKey: "AIzaSyB49Upko14LXV0fdkJGEE5E-bitoszS6_A",
+  authDomain: "puerto-rico-trip-fa981.firebaseapp.com",
+  projectId: "puerto-rico-trip-fa981",
+  storageBucket: "puerto-rico-trip-fa981.firebasestorage.app",
+  messagingSenderId: "1045078809579",
+  appId: "1:1045078809579:web:9afdfd0500a48dcfaf97ae",
+  measurementId: "G-26F6DLVG6S"
+};
+     
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getDatabase, ref, onValue, set, push, remove, update, get }
